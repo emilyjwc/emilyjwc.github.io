@@ -34,9 +34,7 @@
 
         
         </p>
-    <div id="viz">
-      <p>hihihi</p>
-    </div>
+    <div id="viz"></div>
     
     <script>
         var vlSpec = {
@@ -72,6 +70,8 @@
     },
     {
       "mark": {"type": "point", "shape": "diamond"},
+      "width": 300,
+      "height": 300,
       "encoding": {
         "x": {"field": "Year Constructed", "type": "temporal"},
         "y": {"field": "Year Acquired", "type": "temporal"},
@@ -87,9 +87,10 @@
     },
     {
       "mark": {"type": "bar"},
+      "width": 800,
       "encoding": {
-          "x": {"field": "Bldg Status", "type": "ordinal", "sort": "y"},
-          "y": {"aggregate": "count", "title": "Count"},
+          "y": {"field": "Bldg Status", "type": "ordinal", "sort": "x"},
+          "x": {"aggregate": "count", "title": "Count"},
           "tooltip": [
               {"field": "Bldg Status", "type": "ordinal"},
               {"field": "Agency Name", "type": "ordinal", "title": "Agency Name"},
@@ -106,6 +107,7 @@
     },
     {
       "mark": "line",
+      "width": 800,
       "encoding": {
         "x": {"field": "Year Acquired", "type": "temporal", "title": "Year Acquired"},
         "y": {"field": "Total Floors", "type": "quantitative", "title": "Total Floors"},
