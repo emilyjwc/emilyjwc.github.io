@@ -8,14 +8,36 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0/build/vega-lite.min.js" integrity="sha256-WLAn82Ut4GptY/IJf4K/1i+R8ibAkVLFhBVkOovqCK8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2/build/vega-embed.min.js" integrity="sha256-GfFZ6w7V/y3Ws9eHVsOXZ/F1ZFroThVZraOAx3HAt6s=" crossorigin="anonymous"></script>
 </head>
-<body>
+<body style="text-align: center;">
     <p>
-        <h1 style="font-size:10vw">Assignment#3</h1>
-        This is a visualization using the <em>building inventory data</em>. 
-        You can do things like <strong>strongly</strong> emphasize text.
-        You can also <em>emphasize</em> text.
-    </p>
-    <div id="viz"></div>
+        <h1 style="font-size: xx-small; text-align: center;">IS 455 Assignment#3</h1>
+        <h3 style="font-size: x-small; text-align: center;">Emily Chang (emilyjc4)</h3>
+        <!--problem on link doesn't go to the right place i want-->
+        <p style="font-size: small; text-align: center;">This is a visualization using the <em><a href="https://github.com/emilyjwc/emilyjwc.github.io/blob/main/building_inventory.csv">building inventory data</a></em>.</p><br/> 
+        <h2 style="font-size: 15px; text-align: center;">Below are four charts demonstrating the relationships between different columns.</h2>
+        <p style="font-size: 13px; text-align:center">
+        First chart: <strong>Bar Chart</strong> showing the relationship between <em style="color: blue;">Agency Name</em> and <em style="color: orange;"> Count of Records</em>.<br/>
+        Second chart: <strong>Scatter Chart</strong> showing the relationship between <em style="color: pink;">Year Consturcted</em> and <em style="color: green;">Year Acquired</em>.<br/>
+        Thrid chart: <strong>Stacked Bar Chart</strong> showing the relationship between <em style="color: red;">Bldg Status</em> and <em style="color: blueviolet;">Count</em>.<br/>
+        Fourth chart: <strong>Line Chart</strong> showing the relationship between <em style="color: green;">Year Acquired</em> and <em style="color:gray;">Total Floors</em>.<br/>
+        <h2 style="font-size: 20px;">Instrucitons</h2><br/>
+        <p style="font-size: 13px;">
+          1. By hovering on the first chart, you will be able to see count of records of each agency.<br/>
+          2. By framing specific areas on the first chart, the second and third charts shows the data from the colors selected.<br/>
+          3. By framing on the second chart, the first chart shows the agency amount selected in colors and the unselected parts turns gray.<br/>
+          4. By hovering on the third chart, it shows the building status, agency name and the count of the area.<br/>
+          5. By hovering on the fourth chart, it shows the year aquired, total floors and agency name of specific points on the line.<br/>
+          6. BY framing on the fourth chart, you will be able to see how different type of status shows on the first and second chart.<br/>
+
+        </p>
+        
+
+        
+        </p>
+    <div id="viz">
+      <p>hihihi</p>
+    </div>
+    
     <script>
         var vlSpec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -42,7 +64,8 @@
           "mark": {"type": "bar"},
           "encoding": {
             "x": {"field": "Agency Name", "type": "ordinal", "sort": "-y"},
-            "y": {"aggregate": "count"}
+            "y": {"aggregate": "count"},
+            "color": {"field": "Agency Name", "type": "nominal"},  // Color by Agency Name
           }
         }
       ]
@@ -52,7 +75,7 @@
       "encoding": {
         "x": {"field": "Year Constructed", "type": "temporal"},
         "y": {"field": "Year Acquired", "type": "temporal"},
-        "color": {"value": "grey"},
+        "color": {"field": "Agency Name", "type": "nominal"},  // Color by Agency Name
         "opacity": {
           "condition": {"selection": "brush1", "value": 1},
           "value": 0.2
@@ -65,37 +88,37 @@
     {
       "mark": {"type": "bar"},
       "encoding": {
-        "x": {"field": "Bldg Status", "type": "ordinal", "sort": "y"},
-        "y": {"aggregate": "count", "title": "Count"},
-        "tooltip": [
-          {"field": "Bldg Status", "type": "ordinal"},
-          {"field": "Agency Name", "type": "ordinal", "title": "Agency Name"},
-          {"aggregate": "count", "title": "Count"}
-        ],
-        "color": {
-          "condition": {"selection": "brush1", "field": "Agency Name", "type": "ordinal"},
-          "value": "grey"
-        }
+          "x": {"field": "Bldg Status", "type": "ordinal", "sort": "y"},
+          "y": {"aggregate": "count", "title": "Count"},
+          "tooltip": [
+              {"field": "Bldg Status", "type": "ordinal"},
+              {"field": "Agency Name", "type": "ordinal", "title": "Agency Name"},
+              {"aggregate": "count", "title": "Count"}
+          ],
+          "color": {
+              "condition": {"selection": "brush1", "field": "Agency Name", "type": "nominal"},
+              "value": "grey"
+          }
       },
       "selection": {
-        "brush1": {"type": "interval", "encodings": ["x"]}
+          "brush1": {"type": "interval", "encodings": ["x"]}
       }
     },
     {
       "mark": "line",
       "encoding": {
-      "x": {"field": "Year Acquired", "type": "temporal", "title": "Year Acquired"},
-      "y": {"field": "Total Floors", "type": "quantitative", "title": "Total Floors"},
-      "tooltip": [
-        {"field": "Year Acquired", "type": "temporal", "title": "Year Acquired"},
-        {"field": "Total Floors", "type": "quantitative", "title": "Total Floors"},
-        {"field": "Agency Name", "type": "ordinal", "title": "Agency Name"}
-      ],
-      "selection": {
-        "zoom1": {
-          "type": "interval",
-          "encodings": ["x"],
-          "bind": "scales"
+        "x": {"field": "Year Acquired", "type": "temporal", "title": "Year Acquired"},
+        "y": {"field": "Total Floors", "type": "quantitative", "title": "Total Floors"},
+        "tooltip": [
+          {"field": "Year Acquired", "type": "temporal", "title": "Year Acquired"},
+          {"field": "Total Floors", "type": "quantitative", "title": "Total Floors"},
+          {"field": "Agency Name", "type": "nominal", "title": "Agency Name"},
+        ],
+        "selection": {
+          "zoom1": {
+            "type": "interval",
+            "encodings": ["x"],
+            "bind": "scales"
           }
         }
       }
@@ -103,8 +126,8 @@
   ]
 }
 
-            
         vegaEmbed("#viz", vlSpec);
+
     </script>
 </body>
 </html>
